@@ -44,4 +44,18 @@ const login = async(req, res)=>{
         console.log(error)
     }
 }
-module.exports = { registrar, login };
+const perfil =  async (req, res) =>{
+    try {
+        const usuario = await prisma.usuario.findUnique({
+            where: {id: req.usuario.id},
+            select: {id: true, nome: true, email: true}
+        })
+        if(!usuario){
+            console.log("Usuário não encontrado")
+        }
+        res.json(usuario)
+    } catch (error) {
+        console.log(error +" no /perfil")
+    }
+}
+module.exports = { registrar, login, perfil };
